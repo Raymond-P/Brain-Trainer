@@ -8,6 +8,7 @@
 
 import Foundation
 
+//found a little extension to shuffle an array
 extension Array {
     mutating func shuffle()
     {
