@@ -29,6 +29,9 @@ class OperationBrain{
     private var state: String = ""
     private var numberA: Int = 0
     private var numberB: Int = 0
+    private var score = 0
+    private var tries = 5
+    public var gameOver = false
     
     
     // i want to use enums to and contructor to initialize the class differently depending on which operations are being done
@@ -38,10 +41,18 @@ class OperationBrain{
     }
     
     public func start() {
+        if(!gameOver) {
+        potentialAnswers.removeAll()
         twoRandNums()
         performOp()
         getProblem()
         fillAnswerArray()
+        }
+    }
+    public func resetGame() {
+        gameOver = false
+        score = 0
+        tries = 5
     }
     //return array of nums to choose from
     public func returnArray() -> Array<Int>{
@@ -50,7 +61,6 @@ class OperationBrain{
     
     //sets the appropiate label
     private func getProblem() {
-        
         switch state {
         case "Addition":
             answerForLabel = "\(numberA) + \(numberB)"
@@ -64,7 +74,6 @@ class OperationBrain{
             print("no numbers")
             
         }
-        
         print(answerForLabel)
     }
     
@@ -108,6 +117,13 @@ class OperationBrain{
         return String(answer)
     }
     
+    public func getTries() -> String {
+        return String(tries)
+    }
+    
+    public func getScore() -> String {
+        return String(score)
+    }
     
     private var accomulator = 0.0
     private var trankingString = ""
@@ -120,10 +136,19 @@ class OperationBrain{
     
     public func winGame() {
         win = true
+        score += 1
+        self.start()
+        print("testing it works")
     }
     
     public func loseGame() {
         lose = true
+        tries -= 1
+        self.start()
+        if(tries == 0) {
+            gameOver = true
+            tries = 0
+        }
     }
     
     private enum Operation{
