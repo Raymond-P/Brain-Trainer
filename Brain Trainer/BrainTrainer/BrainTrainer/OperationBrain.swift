@@ -15,7 +15,7 @@ class OperationBrain{
     //
     //when the user select the type of game , take the info from this class
     //show the time
-    //show  the score 
+    //show  the score
     //after finish a game-operation another will come up to 5
     //if user the score will determine with the user win or lose , every game will have 20 points  if user got 60 or more points he won.
     
@@ -42,11 +42,11 @@ class OperationBrain{
     
     public func start() {
         if(!gameOver) {
-        potentialAnswers.removeAll()
-        twoRandNums()
-        performOp()
-        getProblem()
-        fillAnswerArray()
+            potentialAnswers.removeAll()
+            twoRandNums()
+            performOp()
+            getProblem()
+            fillAnswerArray()
         }
     }
     public func resetGame() {
@@ -84,17 +84,20 @@ class OperationBrain{
     
     //creates two random numbers
     public func twoRandNums(){
-        numberA = Int(arc4random_uniform(100))
-        numberB = Int(arc4random_uniform(100))
+        numberA = Int(arc4random_uniform(50))
+        numberB = Int(arc4random_uniform(50))
     }
-
+    
     //fills the array with 2 random numbers
     public func fillAnswerArray() {
         for _ in 0...2 {
-            let randNumber = Int(arc4random_uniform(100))
-                
-            potentialAnswers.append(randNumber)
-            
+            let randNumber = Int(arc4random_uniform(60))
+            let multiNumber = Int(arc4random_uniform(500))
+            if state == "Multiplication" {
+                potentialAnswers.append(multiNumber)
+            } else {
+                potentialAnswers.append(randNumber)
+            }
         }
         print(potentialAnswers)
         potentialAnswers.shuffle()
@@ -156,49 +159,49 @@ class OperationBrain{
     }
     
     private var OperationDictionary: Dictionary<String, Operation> =
-    [  "Addition": Operation.binaryOperation({ $0 + $1}),
-        "Substraction": Operation.binaryOperation({ $0 - $1}),
-        "Multiplication": Operation.binaryOperation({ $0 * $1}),
-        "Division": Operation.binaryOperation({ $0 / $1}),
-    ]
-
+        [  "Addition": Operation.binaryOperation({ $0 + $1}),
+           "Substraction": Operation.binaryOperation({ $0 - $1}),
+           "Multiplication": Operation.binaryOperation({ $0 * $1}),
+           "Division": Operation.binaryOperation({ $0 / $1}),
+           ]
+    
     
     private var userOperarationProcess: ProcessingOperation?
-
+    
     private struct ProcessingOperation{
-    let function:(UInt32,UInt32) ->UInt32
+        let function:(UInt32,UInt32) ->UInt32
         let operand1:UInt32
-    func performing(with operand2:UInt32)-> UInt32{
-        return function (operand1,operand2)
+        func performing(with operand2:UInt32)-> UInt32{
+            return function (operand1,operand2)
         }
     }
-
-
-
-//    public func OperationInPerform(_ operationName:String){
-//        if let insideOperation = OperationDictionary [operationName]{
-//        switch insideOperation{
-//            
-//        case .binaryOperation(let function):
-//          userOperarationProcess =  ProcessingOperation(function: function,operand1:UInt32(accomulator))
-//             trankingString += operationName
-//            
-//     
-//        }
-//        
-//    }
-
-//    }
-//    public func settingOperand(_ operand: UInt32){
-//        accomulator = Double(operand)
-//    }
-//
-//    var result: Double!{
-//        get{
-//            return accomulator
-//        }
-//    }
-
-
-
+    
+    
+    
+    //    public func OperationInPerform(_ operationName:String){
+    //        if let insideOperation = OperationDictionary [operationName]{
+    //        switch insideOperation{
+    //
+    //        case .binaryOperation(let function):
+    //          userOperarationProcess =  ProcessingOperation(function: function,operand1:UInt32(accomulator))
+    //             trankingString += operationName
+    //
+    //
+    //        }
+    //
+    //    }
+    
+    //    }
+    //    public func settingOperand(_ operand: UInt32){
+    //        accomulator = Double(operand)
+    //    }
+    //
+    //    var result: Double!{
+    //        get{
+    //            return accomulator
+    //        }
+    //    }
+    
+    
+    
 }

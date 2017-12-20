@@ -44,14 +44,19 @@ class additionViewController: UIViewController {
             gameStart.isHidden = false
             gameStart.isEnabled = true
             kidsMath?.resetGame()
+            disableButtons()
+            timer.invalidate()
+            time = 50
+            countDown.text = String(time)
         }
         print(kidsMath?.getAnswer() ?? "didnt work")
     }
-    @IBOutlet weak var gameStart: UIButton!
     
+    @IBOutlet weak var gameStart: UIButton!
+   
     @IBOutlet weak var operationLabel: UILabel!
     
-    var time = 100
+    var time = 50
     var timer = Timer()
     
     func assignNumbers() {
@@ -71,44 +76,66 @@ class additionViewController: UIViewController {
         tries.text = "Tries: \(tri!)"
         score.text = "Score: \(scores!)"
     }
+    func enableButtons() {
+        for button in buttons {
+            button.isEnabled = true
+        }
+    }
+    func disableButtons() {
+        for button in buttons {
+            button.isEnabled = false
+        }
+    }
     
     @IBAction func startButton(_ sender: UIButton) {
         kidsMath?.start()
         operationLabel.text = kidsMath?.getLabel()
         assignNumbers()
         updateScore()
-        sender.isHidden = true
+        sender.isEnabled = false
+        enableButtons()
+        timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(additionViewController.action), userInfo: nil, repeats: true)
+        
     }
     
     func action(){
         time = time-1
         countDown.text = String(time)
-        if countDown.text == "0" {
+        if time == 0 {
             timer.invalidate()
+            gameStart.titleLabel?.text = "Retry"
+            gameStart.isHidden = false
+            gameStart.isEnabled = true
+            kidsMath?.resetGame()
+            disableButtons()
+            time = 50
+            countDown.text = String(time)
+        
         }
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        disableButtons()
+        
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
